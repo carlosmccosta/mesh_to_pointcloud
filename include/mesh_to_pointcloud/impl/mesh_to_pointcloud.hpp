@@ -21,7 +21,7 @@ bool loadMeshFromFile(const std::string& filename, pcl::PointCloud<PointT>& poin
 	std::string extension = filename.substr(index + 1);
 
 	if (extension == "pcd") {
-		if (pcl::io::loadPCDFile<PointT>(filename, pointcloud) == 0 && !pointcloud.points.empty()) return true;
+		if (pcl::io::loadPCDFile<PointT>(filename, pointcloud) == 0 && !pointcloud.empty()) return true;
 	} else {
 		// Supported file types: .3dc .3ds .asc .ac .bsp .dae .dw .dxf .fbx .flt .gem .geo .iv .ive .logo .lwo .lw .lws .md2 .obj .ogr .osg .pfb .ply .shp .stl .x .wrl ...
 		// http://trac.openscenegraph.org/projects/osg/browser/OpenSceneGraph/trunk/src/osgPlugins
@@ -45,7 +45,7 @@ bool loadMeshFromFile(const std::string& filename, pcl::PointCloud<PointT>& poin
 template<typename PointT>
 bool convertMeshToPCLPointCloud(const osg::Geometry* geometry, pcl::PointCloud<PointT>& pointcloud) {
 	insertPoints(geometry, pointcloud);
-	return !pointcloud.points.empty();
+	return !pointcloud.empty();
 }
 
 
@@ -57,14 +57,14 @@ bool insertPoints(const osg::Geometry* geometry, pcl::PointCloud<PointT>& pointc
 		point.x = (*vertex_points)[i][0];
 		point.y = (*vertex_points)[i][1];
 		point.z = (*vertex_points)[i][2];
-		pointcloud.points.push_back(point);
+		pointcloud.push_back(point);
 	}
 
 	pointcloud.is_dense = false;
-	pointcloud.width = pointcloud.points.size();
+	pointcloud.width = pointcloud.size();
 	pointcloud.height = 1;
 
-	return !pointcloud.points.empty();
+	return !pointcloud.empty();
 }
 
 
@@ -75,7 +75,7 @@ bool addNormals(const osg::Geometry* geometry, pcl::PointCloud<PointT>& pointclo
 	size_t pointcloud_normal_stride = (geometry->getNormalBinding() != osg::Geometry::BIND_PER_VERTEX) ? 3 : 1;
 
 	for (osg::Vec3Array::size_type normals_index = 0; normals_index < vertex_normals->size(); ++normals_index) {
-		for (size_t i = 0; i < pointcloud_normal_stride && pointcloud_index < pointcloud.points.size(); ++i) {
+		for (size_t i = 0; i < pointcloud_normal_stride && pointcloud_index < pointcloud.size(); ++i) {
 			PointT* point = &pointcloud.points[pointcloud_index++];
 			point->normal_x = (*vertex_normals)[normals_index][0];
 			point->normal_y = (*vertex_normals)[normals_index][1];
@@ -83,7 +83,7 @@ bool addNormals(const osg::Geometry* geometry, pcl::PointCloud<PointT>& pointclo
 		}
 	}
 
-	return !pointcloud.points.empty();
+	return !pointcloud.empty();
 }
 
 
@@ -94,7 +94,7 @@ bool addRGB(const osg::Geometry* geometry, pcl::PointCloud<PointT>& pointcloud) 
 	size_t pointcloud_color_stride = (geometry->getColorBinding() != osg::Geometry::BIND_PER_VERTEX) ? 3 : 1;
 
 	for (osg::Vec4Array::size_type colors_index = 0; colors_index < vertex_colors->size(); ++colors_index) {
-		for (size_t i = 0; i < pointcloud_color_stride && pointcloud_index < pointcloud.points.size(); ++i) {
+		for (size_t i = 0; i < pointcloud_color_stride && pointcloud_index < pointcloud.size(); ++i) {
 			PointT* point = &pointcloud.points[pointcloud_index++];
 			point->r = (*vertex_colors)[colors_index][0] * 256;
 			point->g = (*vertex_colors)[colors_index][1] * 256;
@@ -102,7 +102,7 @@ bool addRGB(const osg::Geometry* geometry, pcl::PointCloud<PointT>& pointcloud) 
 		}
 	}
 
-	return !pointcloud.points.empty();
+	return !pointcloud.empty();
 }
 
 
@@ -113,7 +113,7 @@ bool addRGBA(const osg::Geometry* geometry, pcl::PointCloud<PointT>& pointcloud)
 	size_t pointcloud_color_stride = (geometry->getColorBinding() != osg::Geometry::BIND_PER_VERTEX) ? 3 : 1;
 
 	for (osg::Vec4Array::size_type colors_index = 0; colors_index < vertex_colors->size(); ++colors_index) {
-		for (size_t i = 0; i < pointcloud_color_stride && pointcloud_index < pointcloud.points.size(); ++i) {
+		for (size_t i = 0; i < pointcloud_color_stride && pointcloud_index < pointcloud.size(); ++i) {
 			PointT* point = &pointcloud.points[pointcloud_index++];
 			point->r = (*vertex_colors)[colors_index][0] * 256;
 			point->g = (*vertex_colors)[colors_index][1] * 256;
@@ -122,7 +122,7 @@ bool addRGBA(const osg::Geometry* geometry, pcl::PointCloud<PointT>& pointcloud)
 		}
 	}
 
-	return !pointcloud.points.empty();}
+	return !pointcloud.empty();}
 
 }
 

@@ -38,14 +38,14 @@ namespace mesh_to_pointcloud {
 template<>
 bool convertMeshToPCLPointCloud(const osg::Geometry* geometry, pcl::PointCloud<pcl::PointXYZ>& pointcloud) {
 	insertPoints(geometry, pointcloud);
-	return !pointcloud.points.empty();
+	return !pointcloud.empty();
 }
 
 
 template<>
 bool convertMeshToPCLPointCloud(const osg::Geometry* geometry, pcl::PointCloud<pcl::PointXYZI>& pointcloud) {
 	insertPoints(geometry, pointcloud);
-	return !pointcloud.points.empty();
+	return !pointcloud.empty();
 }
 
 
@@ -53,7 +53,7 @@ template<>
 bool convertMeshToPCLPointCloud(const osg::Geometry* geometry, pcl::PointCloud<pcl::PointXYZRGB>& pointcloud) {
 	insertPoints(geometry, pointcloud);
 	addRGB(geometry, pointcloud);
-	return !pointcloud.points.empty();
+	return !pointcloud.empty();
 }
 
 
@@ -61,7 +61,7 @@ template<>
 bool convertMeshToPCLPointCloud(const osg::Geometry* geometry, pcl::PointCloud<pcl::PointXYZRGBA>& pointcloud) {
 	insertPoints(geometry, pointcloud);
 	addRGBA(geometry, pointcloud);
-	return !pointcloud.points.empty();
+	return !pointcloud.empty();
 }
 
 
@@ -69,7 +69,7 @@ template<>
 bool convertMeshToPCLPointCloud(const osg::Geometry* geometry, pcl::PointCloud<pcl::PointNormal>& pointcloud) {
 	insertPoints(geometry, pointcloud);
 	addNormals(geometry, pointcloud);
-	return !pointcloud.points.empty();
+	return !pointcloud.empty();
 }
 
 
@@ -77,7 +77,7 @@ template<>
 bool convertMeshToPCLPointCloud(const osg::Geometry* geometry, pcl::PointCloud<pcl::PointXYZINormal>& pointcloud) {
 	insertPoints(geometry, pointcloud);
 	addNormals(geometry, pointcloud);
-	return !pointcloud.points.empty();
+	return !pointcloud.empty();
 }
 
 
@@ -86,7 +86,7 @@ bool convertMeshToPCLPointCloud(const osg::Geometry* geometry, pcl::PointCloud<p
 	insertPoints(geometry, pointcloud);
 	addRGB(geometry, pointcloud);
 	addNormals(geometry, pointcloud);
-	return !pointcloud.points.empty();
+	return !pointcloud.empty();
 }
 
 }
